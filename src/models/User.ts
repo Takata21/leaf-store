@@ -1,11 +1,12 @@
 import { model, Schema } from 'npm:mongoose';
-import * as bcrypt from 'https://deno.land/x/bcrypt@v0.4.1/mod.ts';
+// import * as bcrypt from 'https://deno.land/x/bcrypt@v0.4.1/mod.ts';
+import bcrypt from 'npm:bcryptjs';
 const userSchema = new Schema(
 	{
 		username: {
 			type: String,
 			required: true,
-			unique: true,
+			// unique: true,
 			trim: true,
 		},
 		image: {
@@ -14,7 +15,7 @@ const userSchema = new Schema(
 		email: {
 			type: String,
 			required: true,
-			unique: true,
+			// unique: true,
 			trim: true,
 		},
 		password: {
@@ -42,11 +43,13 @@ const userSchema = new Schema(
 );
 
 userSchema.methods.generateHash = async function (password: string) {
-	const salt = await bcrypt.genSalt(8);
+	console.log(password);
+	const salt = await bcrypt.genSalt(10);
 	return await bcrypt.hash(password, salt);
 };
 
 userSchema.methods.validPassword = async function (password: string) {
+	console.log(this.email);
 	return await bcrypt.compare(password, this.password);
 };
 export default model('User', userSchema);
