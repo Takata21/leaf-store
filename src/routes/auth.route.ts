@@ -99,7 +99,7 @@ app.get('/profile', verifyToken, async (c) => {
 		return c.json(user);
 	} catch (error) {
 		console.log(error);
-		return c.json({ error: 'An unexpected error occurred' }, 500);
+		return c.json({ error: 'An unexpected error occurred.' }, 500);
 	}
 });
 
